@@ -10,9 +10,29 @@ public class Poker {
                 deck.add(card);
             }
         }
-        List<Hand> hands = new ArrayList<>();
+
+        if (args.length == 0 || "Stud".equalsIgnoreCase(args[0])) {
+            System.out.println("Default to play stud");
+            playStud(deck);
+        } else if ("Texas".equalsIgnoreCase(args[0])) {
+            playTexas(deck);
+        } else if ("Omaha".equalsIgnoreCase(args[0])) {
+            playOmaha(deck);
+        } else {
+            System.out.println("Please specify 'Stud', 'Texas' or 'Omaha' as parameter");
+        }
 
         // Deal 10 players 5 cards each and rank the hands.
+    }
+
+    private static void playOmaha(Set<Card> deck) {
+    }
+
+    private static void playTexas(Set<Card> deck) {
+    }
+
+    private static void playStud(Set<Card> deck) {
+        List<Hand> hands = new ArrayList<>();
         for (int j=0; j<10; j++) {
             Card[] hand = new Card[5];
 

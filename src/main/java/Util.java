@@ -5,7 +5,7 @@ public class Util {
 
     public static <T> List<List<T>> generateCombinations(List<T> elements, int k) {
         List<List<T>> result = new ArrayList<>();
-        generateCombinationsHelper(elements, k, 0, new ArrayList<T>(), result);
+        generateCombinationsHelper(elements, k, 0, new ArrayList<>(), result);
         return result;
     }
 

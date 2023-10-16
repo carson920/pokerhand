@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Poker {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Set<Card> deck = new HashSet<>();
         for (Suit suit: Suit.values()) {
             for (Value value: Value.values()) {

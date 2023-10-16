@@ -1,8 +1,8 @@
 public enum Suit {
-    DIAMOND (0,"\u2666"),
-    CLUB(1,"\u2663"),
-    HEART(2,"\u2665"),
-    SPADE(3,"\u2660");
+    DIAMOND (0,"♦"),
+    CLUB(1,"♣"),
+    HEART(2,"♥"),
+    SPADE(3,"♠");
 
     private final int index;
     private final String name;

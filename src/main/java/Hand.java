@@ -1,23 +1,22 @@
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Hand implements Comparable<Hand>{
 
-    private Card[] cards;
-    private List<HandElementValue> handElementValues;
+    Card[] usedCards;
+    List<HandElementValue> handElementValues;
 
     public Hand(Card[] cards, List<HandElementValue> handElementValues) {
-        this.cards = cards;
+        this.usedCards = cards;
         this.handElementValues = handElementValues;
     }
 
-    public Card[] getCards() {
-        return cards;
+    public Card[] getUsedCards() {
+        return usedCards;
     }
 
-    public void setCards(Card[] cards) {
-        this.cards = cards;
+    public void setUsedCards(Card[] usedCards) {
+        this.usedCards = usedCards;
     }
 
     public List<HandElementValue> getHandElementValues() {
@@ -40,6 +39,6 @@ public class Hand implements Comparable<Hand>{
 
     @Override
     public String toString() {
-        return Arrays.toString(cards) + " " + handElementValues.get(0).getHandElement() + "\r\n";
+        return Arrays.toString(usedCards) + " " + handElementValues.get(0).getHandElement() + "\r\n";
     }
 }

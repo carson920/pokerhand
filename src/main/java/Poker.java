@@ -12,11 +12,13 @@ public class Poker {
         }
 
         if (args.length == 0 || "Stud".equalsIgnoreCase(args[0])) {
-            System.out.println("Default to play stud");
+            System.out.println("Play stud");
             playStud(deck);
         } else if ("Texas".equalsIgnoreCase(args[0])) {
+            System.out.println("Play Texas Hold'em");
             playTexas(deck);
         } else if ("Omaha".equalsIgnoreCase(args[0])) {
+            System.out.println("Play Texas Omaha");
             playOmaha(deck);
         } else {
             System.out.println("Please specify 'Stud', 'Texas' or 'Omaha' as parameter");
@@ -50,7 +52,7 @@ public class Poker {
             deck.remove(drawn);
             communityCards.add(drawn);
         }
-        System.out.println(communityCards);
+        communityCards.sort(Comparator.naturalOrder());
 
         List<TexasOmahaHand> hands = new ArrayList<>();
         for (int j=0; j<10; j++) {
@@ -60,10 +62,12 @@ public class Poker {
                 Card drawn = deck.stream().skip(new Random().nextInt(deck.size())).findFirst().orElse(null);
                 deck.remove(drawn);
                 holeCards.add(drawn);
+                holeCards.sort(Comparator.naturalOrder());
             }
             List<Card> combinedCards = Util.combineLists(holeCards, communityCards);
             List<List<Card>> possibleFiveCards = Util.generateCombinations(combinedCards, 5);
             for (List<Card> p : possibleFiveCards) {
+                p.sort(Comparator.naturalOrder());
                 evaluatedCombinations.add(new TexasOmahaHand(holeCards.toArray(new Card[0]),
                         p.toArray(new Card[0]),
                         Util.evaluateHand(p)));
@@ -79,6 +83,48 @@ public class Poker {
     }
 
     private static void playOmaha(Set<Card> deck) {
+        List<Card> communityCards = new ArrayList<>();
+        for (int i=0; i<5; i++) {
+            Card drawn = deck.stream().skip(new Random().nextInt(deck.size())).findFirst().orElse(null);
+            deck.remove(drawn);
+            communityCards.add(drawn);
+        }
+        communityCards.sort(Comparator.naturalOrder());
+
+        List<TexasOmahaHand> hands = new ArrayList<>();
+        for (int j=0; j<10; j++) {
+            List<TexasOmahaHand> evaluatedCombinations = new ArrayList<>();
+            List<Card> holeCards = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                Card drawn = deck.stream().skip(new Random().nextInt(deck.size())).findFirst().orElse(null);
+                deck.remove(drawn);
+                holeCards.add(drawn);
+                holeCards.sort(Comparator.naturalOrder());
+            }
+            List<List<Card>> possibleTwoCards = Util.generateCombinations(holeCards, 2);
+            List<List<Card>> possibleThreeCards = Util.generateCombinations(communityCards, 3);
+            List<List<Card>> possibleFiveCards = new ArrayList<>();
+
+            for (List<Card> two : possibleTwoCards) {
+                for (List<Card> three : possibleThreeCards) {
+                    List<Card> combinedCards = Util.combineLists(two, three);
+                    possibleFiveCards.add(combinedCards);
+                }
+            }
+            for (List<Card> p : possibleFiveCards) {
+                p.sort(Comparator.naturalOrder());
+                evaluatedCombinations.add(new TexasOmahaHand(holeCards.toArray(new Card[0]),
+                        p.toArray(new Card[0]),
+                        Util.evaluateHand(p)));
+            }
+            //evaluatedCombinations.sort(Comparator.naturalOrder());
+            TexasOmahaHand individualBestHand = Collections.min(evaluatedCombinations);
+            System.out.println("Hole Cards: " + holeCards + " Largest combination: " + individualBestHand);
+            hands.add(individualBestHand);
+        }
+        System.out.println("Community Cards: " + communityCards);
+        hands.sort(Comparator.naturalOrder());
+        System.out.println(hands);
     }
 
 }
